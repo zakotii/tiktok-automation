@@ -1,204 +1,200 @@
+Sure! Here's the English translation of your `README.md`:
+
+---
+
 # TikTok Automation with Python + Playwright
 
-🤖 Автоматизация работы с TikTok для просмотра и анализа видео по поисковым запросам.
+🤖 Automate interactions with TikTok for viewing and analyzing videos based on search queries.
 
-## 📋 Описание
+## 📋 Overview
 
-Скрипт выполняет следующие задачи:
-- ✅ Авторизация в TikTok через браузер
-- ✅ Поиск видео по заданному запросу  
-- ✅ Просмотр видео в ленте результатов
-- ✅ Случайный пропуск видео (12% по умолчанию)
-- ✅ Логирование действий в консоль и файл
+The script performs the following tasks:
+- ✅ Login to TikTok via browser
+- ✅ Search for videos based on a specified query  
+- ✅ Watch videos in the search results feed
+- ✅ Randomly skip some videos (12% by default)
+- ✅ Log all actions to the console and a log file
 
-## 🛠 Технологии
+## 🛠 Technologies
 
 - **Python 3.10+**
-- **Playwright** - для автоматизации браузера
-- **python-dotenv** - для работы с переменными окружения
+- **Playwright** – for browser automation
+- **python-dotenv** – to manage environment variables
 
-## 📦 Структура проекта
+## 📦 Project Structure
 
 ```
 tiktok-automation/
-├── main.py              # Основной скрипт
-├── requirements.txt     # Зависимости
-├── .env.example        # Пример настроек
-├── .env               # Ваши настройки (создать)
-├── README.md          # Документация
-└── tiktok_automation.log  # Лог-файл (создается автоматически)
+├── main.py               # Main script
+├── requirements.txt      # Dependencies
+├── .env.example          # Configuration template
+├── .env                  # Your custom settings (to create)
+├── README.md             # Documentation
+└── tiktok_automation.log # Log file (generated automatically)
 ```
 
-## 🚀 Установка и запуск
+## 🚀 Installation & Run
 
-### 1. Клонирование репозитория
+### 1. Clone the repository
 ```bash
 git clone <repository-url>
 cd tiktok-automation
 ```
 
-### 2. Создание виртуального окружения
+### 2. Create a virtual environment
 ```bash
-# Создание виртуального окружения
 python3 -m venv venv
 
-# Активация (Linux/Mac)
+# Activate (Linux/Mac)
 source venv/bin/activate
 
-# Активация (Windows)
+# Activate (Windows)
 # venv\Scripts\activate
 ```
 
-### 3. Установка зависимостей
+### 3. Install dependencies
 ```bash
-# Установка Python пакетов
 pip install -r requirements.txt
-
-# Установка браузеров для Playwright
 playwright install chromium
 ```
 
-### 4. Настройка конфигурации
+### 4. Configure settings
 ```bash
-# Копирование примера конфигурации
 cp .env.example .env
-
-# Редактирование настроек (опционально)
-nano .env
+nano .env   # or edit manually
 ```
 
-### 5. Запуск
+### 5. Run the script
 ```bash
 python main.py
 ```
 
-## ⚙️ Настройки
+## ⚙️ Configuration
 
-В файле `.env` можно настроить:
+You can configure settings in `.env`:
 
 ```env
-# Процент видео для пропуска (по умолчанию 12%)
+# Percentage of videos to skip (default is 12%)
 SKIP_PERCENT=12
 
-# Максимальное количество видео для обработки
+# Max number of videos to process
 MAX_VIDEOS=20
 
-# Поисковый запрос по умолчанию
+# Default search query
 SEARCH_QUERY=dance
 ```
 
-## 📊 Логирование
+## 📊 Logging
 
-Скрипт ведет подробное логирование:
+The script logs details both to console and to a file:
 
-### Консольный вывод:
+### Console example:
 ```
-ID: 7123456789 | URL: https://tiktok.com/video/7123456789 | Статус: ПРОСМОТРЕНО ПОЛНОСТЬЮ
-ID: 7123456790 | URL: https://tiktok.com/video/7123456790 | Статус: ПРОПУЩЕНО
-```
-
-### Файл лога:
-- `tiktok_automation.log` - детальные логи работы скрипта
-
-### Статистика:
-```
-=== СТАТИСТИКА ===
-Всего обработано видео: 20
-Просмотрено полностью: 18
-Пропущено: 2
-Процент пропусков: 10.0%
+ID: 7123456789 | URL: https://tiktok.com/video/7123456789 | Status: WATCHED FULLY
+ID: 7123456790 | URL: https://tiktok.com/video/7123456790 | Status: SKIPPED
 ```
 
-## 🔧 Особенности реализации
+### Log file:
+- `tiktok_automation.log` contains detailed logs of execution
 
-### Авторизация
-- Открывается реальный браузер для ручной авторизации
-- Поддержка различных способов входа в TikTok
-- Проверка успешности авторизации
+### Statistics:
+```
+=== STATISTICS ===
+Total videos processed: 20
+Fully watched: 18
+Skipped: 2
+Skip rate: 10.0%
+```
 
-### Поиск видео
-- Автоматический поиск по заданному запросу
-- Адаптивный поиск элементов интерфейса
-- Обработка различных локализаций TikTok
+## 🔧 Implementation Highlights
 
-### Просмотр видео
-- Случайное время просмотра (15-45 секунд)
-- Имитация человеческого поведения
-- Корректный переход между видео
+### Login
+- Opens a real browser window for manual login
+- Supports different login methods
+- Verifies successful login
 
-### Обработка ошибок
-- Подробное логирование ошибок
-- Graceful handling недоступных элементов
-- Автоматическое восстановление при сбоях
+### Video Search
+- Automatically searches for specified query
+- Adapts to interface elements
+- Works across TikTok language/region variants
 
-## 🎯 Логика работы
+### Video Viewing
+- Random watch duration (15–45 seconds)
+- Simulates human behavior
+- Smooth transition between videos
 
-1. **Инициализация**: Запуск браузера с реалистичными настройками
-2. **Авторизация**: Переход на TikTok и ручной вход в аккаунт
-3. **Поиск**: Ввод поискового запроса и переход к результатам
-4. **Обработка видео**:
-   - Получение информации о видео
-   - Случайное решение: смотреть или пропустить (12% пропуск)
-   - Просмотр или переход к следующему
-   - Логирование результата
-5. **Статистика**: Вывод итоговой информации
+### Error Handling
+- Detailed error logging
+- Graceful handling of missing elements
+- Auto-recovery from failures
 
-## ⚠️ Важные замечания
+## 🎯 Workflow Logic
 
-### Безопасность
-- Используйте реальный аккаунт TikTok
-- Не запускайте слишком часто (избегайте блокировок)
-- Соблюдайте правила использования TikTok
+1. **Initialization**: Browser launches with realistic settings  
+2. **Login**: Go to TikTok and log in manually  
+3. **Search**: Enter query and navigate to results  
+4. **Process Videos**:  
+   - Get video info  
+   - Randomly decide to skip or watch (12% skip rate)  
+   - View or skip  
+   - Log outcome  
+5. **Summary Stats**: Output final report
 
-### Ограничения
-- Требует ручной авторизации при первом запуске
-- Может потребовать обновления селекторов при изменении интерфейса TikTok
-- Работает только с публично доступными видео
+## ⚠️ Notes
 
-### Производительность
-- Используется реальный браузер (не headless) для обхода защит
-- Случайные задержки для имитации человеческого поведения
-- Адаптивное время просмотра видео
+### Security
+- Use a real TikTok account
+- Don't run too frequently (risk of account blocks)
+- Follow TikTok's terms of use
+
+### Limitations
+- Requires manual login on first run
+- May need updated selectors if TikTok UI changes
+- Only works with publicly available videos
+
+### Performance
+- Uses full browser (not headless) to bypass bot detection
+- Adds delays to mimic human activity
+- Adaptive watch times
 
 ## 🐛 Troubleshooting
 
-### Проблемы с установкой Playwright
+### Playwright installation issues
 ```bash
-# Переустановка браузеров
 playwright install --force chromium
 ```
 
-### Элементы не найдены
-- Проверьте актуальность селекторов в коде
-- TikTok может изменить интерфейс
-- Попробуйте обновить Playwright
+### Missing elements
+- Check selector accuracy
+- TikTok's layout might’ve changed
+- Try updating Playwright
 
-### Проблемы с авторизацией
-- Используйте стабильное интернет-соединение
-- Попробуйте войти через другой способ (email/телефон)
-- Проверьте, не заблокирован ли аккаунт
+### Login problems
+- Use a stable internet connection
+- Try different login methods (email/phone)
+- Check if your account is blocked
 
-## 📈 Возможные улучшения
+## 📈 Potential Improvements
 
-- [ ] Автоматическая авторизация через API
-- [ ] Сохранение сессии между запусками
-- [ ] Анализ контента видео
-- [ ] Экспорт данных в CSV/JSON
-- [ ] Поддержка множественных поисковых запросов
-- [ ] GUI интерфейс
-- [ ] Docker контейнеризация
+- [ ] Automatic login via API  
+- [ ] Session persistence between runs  
+- [ ] Video content analysis  
+- [ ] Data export to CSV/JSON  
+- [ ] Multiple search queries support  
+- [ ] GUI interface  
+- [ ] Docker containerization  
 
-## 📄 Лицензия
+## 📄 License
 
-MIT License - используйте свободно для обучения и тестирования.
+MIT License – use freely for learning and testing purposes.
 
-## 🤝 Вклад в проект
+## 🤝 Contributing
 
-1. Fork репозитория
-2. Создайте feature branch
-3. Внесите изменения
-4. Создайте Pull Request
+1. Fork the repository  
+2. Create a new feature branch  
+3. Make changes  
+4. Submit a Pull Request
 
 ---
 
-**⚠️ Дисклеймер**: Используйте ответственно и в соответствии с правилами TikTok. Автор не несет ответственности за блокировки аккаунтов или нарушение ToS.
+**⚠️ Disclaimer**: Use responsibly and in accordance with TikTok’s terms. The author is not responsible for account suspensions or violations of ToS.

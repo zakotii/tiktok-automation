@@ -6,7 +6,7 @@ import sys
 
 from playwright.async_api import (
     async_playwright,
-    TimeoutError as PlaywrightTimeoutError
+    TimeoutError as PlaywrightTimeoutError,
 )
 from dotenv import load_dotenv
 
@@ -15,11 +15,11 @@ load_dotenv()
 
 TIKTOK_USERNAME = os.getenv("TIKTOK_USERNAME")
 TIKTOK_PASSWORD = os.getenv("TIKTOK_PASSWORD")
-SEARCH_QUERY    = os.getenv("SEARCH_QUERY", "dance")
-SKIP_PERCENT    = int(os.getenv("SKIP_PERCENT", 12))
-MAX_VIDEOS      = int(os.getenv("MAX_VIDEOS", 20))
-SEARCH_WAIT     = 20000   # ms на завантаження результатів пошуку
-VIDEO_WAIT      = 15000   # ms на підвантаження сторінки відео
+SEARCH_QUERY = os.getenv("SEARCH_QUERY", "dance")
+SKIP_PERCENT = int(os.getenv("SKIP_PERCENT", 12))
+MAX_VIDEOS = int(os.getenv("MAX_VIDEOS", 20))
+SEARCH_WAIT = 20000  # ms на завантаження результатів пошуку
+VIDEO_WAIT = 15000  # ms на підвантаження сторінки відео
 
 # ─── Налаштування логування ─────────────────────────────────────────────────────
 log_fmt = "%(asctime)s | %(levelname)s | %(message)s"
@@ -28,30 +28,38 @@ logging.basicConfig(
     format=log_fmt,
     handlers=[
         logging.StreamHandler(sys.stdout),
-        logging.FileHandler("tiktok_automation.log", encoding="utf-8")
-    ]
+        logging.FileHandler("tiktok_automation.log", encoding="utf-8"),
+    ],
 )
 logger = logging.getLogger("tiktok_bot")
 
 
 async def main():
     logger.info("🚀 Початок автоматизації TikTok")
-    logger.info(f"🔎 Пошуковий запит: {SEARCH_QUERY}, skip% = {SKIP_PERCENT}, max videos = {MAX_VIDEOS}")
+    logger.info(
+        f"🔎 Пошуковий запит: {SEARCH_QUERY}, skip% = {SKIP_PERCENT}, max videos = {MAX_VIDEOS}"
+    )
 
     async with async_playwright() as p:
         # Відкриваємо браузер у режимі з GUI, щоб вручну залогінитись
         browser = await p.chromium.launch_persistent_context(
             user_data_dir="./user_data",
             headless=False,
-            args=["--no-sandbox", "--disable-dev-shm-usage"]
+            args=["--no-sandbox", "--disable-dev-shm-usage"],
         )
         page = browser.pages[0] if browser.pages else await browser.new_page()
 
         # ─── КРОК 1: АВТОРИЗАЦІЯ ──────────────────────────────────────────────
-        await page.goto("https://www.tiktok.com/login", timeout=SEARCH_WAIT, wait_until="networkidle")
+        await page.goto(
+            "https://www.tiktok.com/login",
+            timeout=SEARCH_WAIT,
+            wait_until="networkidle",
+        )
         logger.info("🔐 Будь ласка, увійдіть в свій TikTok акаунт у відкритому вікні.")
         # чекаємо, поки користувач нажме Enter у консолі
-        await asyncio.get_event_loop().run_in_executor(None, input, "Після входу натисніть ENTER тут…")
+        await asyncio.get_event_loop().run_in_executor(
+            None, input, "Після входу натисніть ENTER тут…"
+        )
         logger.info("✅ Авторизацію завершено")
 
         # ─── КРОК 2: ПОШУК ───────────────────────────────────────────────────
@@ -107,7 +115,9 @@ async def main():
             logger.info(f"{tag} | {video_url} | ПРОСМОТР…")
             video_page = await browser.new_page()
             try:
-                await video_page.goto(video_url, timeout=VIDEO_WAIT, wait_until="networkidle")
+                await video_page.goto(
+                    video_url, timeout=VIDEO_WAIT, wait_until="networkidle"
+                )
                 # чекаємо появи тега <video>
                 await video_page.wait_for_selector("video", timeout=VIDEO_WAIT)
                 # імітуємо перегляд (людська затримка 15–45s)
